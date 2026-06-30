@@ -44,8 +44,13 @@
    RESET
 ====================================================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;font-size:16px;text-rendering:optimizeLegibility;font-feature-settings:'kern' 1,'liga' 1}
 body{background:var(--n);color:var(--iv);font-family:var(--jo);font-weight:300;overflow-x:hidden;cursor:none}
+::selection{background:rgba(200,168,124,.22);color:var(--iv)}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--nd)}
+::-webkit-scrollbar-thumb{background:var(--gd);border-radius:0}
+::-webkit-scrollbar-thumb:hover{background:var(--g)}
 img{max-width:100%;display:block}
 a{cursor:none}
 button{cursor:none}
@@ -120,7 +125,7 @@ button{cursor:none}
     border-bottom-color:rgba(200,168,124,.15);
 }
 .nav-in{max-width:var(--max);width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{height:96px;width:auto;opacity:.92;transition:opacity .3s}
+.nav-logo{height:96px;width:auto;opacity:.85;transition:opacity .5s var(--ease)}
 .nav-logo:hover{opacity:1}
 .nav-links{display:flex;align-items:center;gap:2.25rem;list-style:none}
 .nav-links a{
@@ -152,8 +157,15 @@ button{cursor:none}
 #mmenu.open{display:flex;opacity:1;visibility:visible}
 #mmenu a{
     font-family:var(--pl);font-size:clamp(2rem,5vw,2.75rem);font-style:italic;
-    font-weight:400;color:var(--iv);text-decoration:none;transition:color .3s;
+    font-weight:400;color:var(--iv);text-decoration:none;
+    opacity:0;transform:translateY(16px);
+    transition:color .3s,opacity .5s var(--eout),transform .5s var(--eout);
 }
+#mmenu.open a:nth-child(2){opacity:1;transform:translateY(0);transition-delay:.06s}
+#mmenu.open a:nth-child(3){opacity:1;transform:translateY(0);transition-delay:.12s}
+#mmenu.open a:nth-child(4){opacity:1;transform:translateY(0);transition-delay:.18s}
+#mmenu.open a:nth-child(5){opacity:1;transform:translateY(0);transition-delay:.24s}
+#mmenu.open a:nth-child(6){opacity:1;transform:translateY(0);transition-delay:.30s}
 #mmenu a:hover{color:var(--g)}
 .mm-close{
     position:absolute;top:2rem;right:var(--gut);
@@ -172,8 +184,16 @@ button{cursor:none}
 }
 
 .hero-pat{
-    position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.04;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23C8A87C' stroke-width='.4'%3E%3Crect x='1' y='1' width='58' height='58'/%3E%3Cline x1='30' y1='1' x2='30' y2='59'/%3E%3Cline x1='1' y1='30' x2='59' y2='30'/%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3Cline x1='1' y1='1' x2='59' y2='59'/%3E%3Cline x1='59' y1='1' x2='1' y2='59'/%3E%3C/g%3E%3C/svg%3E");
+    position:absolute;inset:0;pointer-events:none;z-index:1;
+    background-image:
+        repeating-linear-gradient(
+            -62deg,
+            rgba(200,168,124,.022) 0px,
+            rgba(200,168,124,.022) 1px,
+            transparent 1px,
+            transparent 64px
+        ),
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(58,20,32,.6) 0%, transparent 70%);
 }
 
 .hero-left{
@@ -263,6 +283,7 @@ button{cursor:none}
 .hst-n{
     font-family:var(--pl);font-size:clamp(1.1rem,1.8vw,1.6rem);
     font-weight:700;color:var(--g);line-height:1;
+    font-variant-numeric:oldstyle-nums;font-feature-settings:'onum' 1;
 }
 .hst-l{
     font-family:var(--jo);font-size:.5rem;font-weight:300;
@@ -413,6 +434,7 @@ button{cursor:none}
 .ss-num{
     font-family:var(--pl);font-size:2.2rem;font-weight:700;font-style:italic;
     color:var(--gd);line-height:1;
+    font-variant-numeric:oldstyle-nums;font-feature-settings:'onum' 1;
 }
 .ss-label{
     font-family:var(--jo);font-size:.55rem;letter-spacing:.2em;
@@ -448,6 +470,12 @@ button{cursor:none}
     font-family:var(--jo);font-size:.95rem;font-weight:300;
     line-height:1.85;color:#2A2622;
     padding-left:1.25rem;border-left:2px solid var(--gd);margin-bottom:1.5rem;
+}
+.sobre-pull{
+    font-family:var(--co);font-size:clamp(1rem,1.6vw,1.22rem);
+    font-style:italic;font-weight:400;color:var(--gd);
+    line-height:1.78;border-left:2px solid var(--gd);
+    padding:.9rem 0 .9rem 1.5rem;margin:1.75rem 0;
 }
 .cred-strip{
     margin-top:2rem;padding:1.5rem;
@@ -611,10 +639,14 @@ button{cursor:none}
 .btn-wa-desp{
     display:inline-flex;align-items:center;gap:.55rem;
     font-family:var(--jo);font-size:.6rem;font-weight:400;letter-spacing:.18em;
-    text-transform:uppercase;color:#fff;background:#25D366;
-    padding:.8rem 1.75rem;text-decoration:none;transition:background .3s;
+    text-transform:uppercase;color:var(--gl);
+    background:rgba(200,168,124,.1);
+    border:1px solid rgba(200,168,124,.4);
+    padding:.8rem 1.75rem;text-decoration:none;
+    transition:background .3s,border-color .3s,color .3s;
 }
-.btn-wa-desp:hover{background:#1ebe5d}
+.btn-wa-desp:hover{background:rgba(200,168,124,.2);border-color:var(--g);color:var(--gp)}
+.btn-wa-desp svg path{fill:#25D366}
 
 @media(max-width:900px){
     .desp-header{grid-template-columns:1fr}
@@ -652,9 +684,19 @@ button{cursor:none}
 .test-card{
     background:var(--n);padding:2.5rem 2.25rem;
     position:relative;display:flex;flex-direction:column;
-    transition:background .35s;
+    transition:background .35s;overflow:hidden;
+}
+.test-card::before{
+    content:'';position:absolute;top:0;left:0;
+    width:0;height:2px;background:var(--g);
+    transition:width .55s var(--ease);
 }
 .test-card:hover{background:var(--nm)}
+.test-card:hover::before{width:100%}
+.tc-stars{
+    font-size:.85rem;color:var(--g);letter-spacing:.14em;
+    margin-bottom:1.1rem;opacity:.88;
+}
 .tc-mark{
     font-family:var(--pl);font-size:4rem;font-weight:400;
     color:var(--g);opacity:.2;line-height:.6;margin-bottom:1.5rem;
@@ -698,7 +740,11 @@ button{cursor:none}
 .faq-h{
     font-family:var(--pl);font-size:clamp(1.4rem,2.5vw,2.25rem);
     font-weight:700;font-style:italic;color:var(--n);
-    margin-bottom:2.25rem;letter-spacing:-.01em;
+    margin-bottom:.85rem;letter-spacing:-.01em;
+}
+.faq-sub{
+    font-family:var(--jo);font-size:.83rem;font-weight:300;
+    color:var(--st);line-height:1.85;margin-bottom:2.25rem;
 }
 .faq-list{border-top:1px solid var(--iv3)}
 .faq-item{border-bottom:1px solid var(--iv3)}
@@ -816,9 +862,9 @@ button{cursor:none}
     color:var(--n);background:transparent;outline:none;
     transition:border-color .3s;appearance:none;-webkit-appearance:none;
 }
-.form-f:focus{border-bottom-color:var(--gd)}
+.form-f:focus{border-bottom-color:var(--gd);background:rgba(200,168,124,.035)}
 .form-f::placeholder{color:var(--stl)}
-textarea.form-f{resize:none;height:80px}
+textarea.form-f{resize:none;height:104px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
 .form-submit{
     width:100%;padding:.95rem;background:var(--n);color:var(--g);
@@ -970,15 +1016,15 @@ footer{background:var(--nd);padding:0 var(--gut)}
 
         <div class="hero-stats">
             <div class="hst-item">
-                <span class="hst-n">30<span style="font-size:.65em;color:var(--g)">+</span></span>
+                <span class="hst-n" data-count="30" data-suffix="+">30<span style="font-size:.65em;color:var(--g)">+</span></span>
                 <span class="hst-l">Años de ejercicio</span>
             </div>
             <div class="hst-item">
-                <span class="hst-n">1994</span>
+                <span class="hst-n" data-count="1994">1994</span>
                 <span class="hst-l">Año de colegiación</span>
             </div>
             <div class="hst-item">
-                <span class="hst-n">337</span>
+                <span class="hst-n" data-count="337">337</span>
                 <span class="hst-l">Nº colegiada</span>
             </div>
             <div class="hst-item">
@@ -997,7 +1043,7 @@ footer{background:var(--nd);padding:0 var(--gut)}
 
     <div class="hero-scroll">
         <div class="hs-line"></div>
-        <span class="hs-text">Desplazar</span>
+        <span class="hs-text">Descubrir</span>
     </div>
 </section>
 
@@ -1007,8 +1053,8 @@ footer{background:var(--nd);padding:0 var(--gut)}
 <section id="audiencia">
     <div class="aud-in">
         <div class="aud-pre rv">
-            <div class="aud-pre-tag">¿En qué le podemos ayudar?</div>
-            <p class="aud-pre-h">Elija su perfil para ir directamente a lo que necesita</p>
+            <div class="aud-pre-tag">¿Cuál es su situación?</div>
+            <p class="aud-pre-h">Seleccione su perfil. Le mostramos exactamente lo que necesita.</p>
         </div>
         <div class="aud-grid">
             <a href="#que-hago" class="aud-card rv">
@@ -1053,12 +1099,12 @@ footer{background:var(--nd);padding:0 var(--gut)}
             </div>
             <div class="sobre-stats">
                 <div class="ss-item">
-                    <div class="ss-num">30+</div>
+                    <div class="ss-num" data-count="30" data-suffix="+">30+</div>
                     <div class="ss-label">años de ejercicio ininterrumpido</div>
                 </div>
                 <div class="ss-sep"></div>
                 <div class="ss-item">
-                    <div class="ss-num">6</div>
+                    <div class="ss-num" data-count="6">6</div>
                     <div class="ss-label">jurisdicciones cubiertas</div>
                 </div>
                 <div class="ss-sep"></div>
@@ -1084,9 +1130,9 @@ footer{background:var(--nd);padding:0 var(--gut)}
                 Su profundo conocimiento del ordenamiento jurídico, el dominio de los procedimientos en todas las jurisdicciones y la relación de confianza consolidada con todos los operadores judiciales garantizan a cada cliente una representación de primer nivel: ágil, precisa y absolutamente comprometida con sus intereses.
             </p>
 
-            <p class="sobre-p rv d4">
-                La Procuraduría es la columna vertebral del proceso judicial. Un error de representación puede costar una causa. María Magdalena Escudero Nocea lleva treinta años sin cometer ese error.
-            </p>
+            <blockquote class="sobre-pull rv d4">
+                «La Procuraduría es la columna vertebral del proceso judicial. Un error de representación puede costar una causa. María Magdalena Escudero Nocea lleva treinta años sin cometer ese error.»
+            </blockquote>
 
             <div class="cred-strip rv d4">
                 <div class="cs-item">
@@ -1279,6 +1325,7 @@ footer{background:var(--nd);padding:0 var(--gut)}
         <div class="test-grid">
 
             <div class="test-card rv">
+                <div class="tc-stars">★★★★★</div>
                 <div class="tc-mark">"</div>
                 <p class="tc-quote">Llevamos más de doce años derivándole asuntos civiles y de familia. Jamás ha fallado un plazo, jamás ha habido una notificación perdida. En este tiempo ha gestionado cientos de expedientes para nosotros y la confianza es absoluta. No concibo tener otro procurador en Sevilla.</p>
                 <div class="tc-sep"></div>
@@ -1288,7 +1335,8 @@ footer{background:var(--nd);padding:0 var(--gut)}
             </div>
 
             <div class="test-card rv d1">
-                <div class="tc-mark">"</div>
+                <div class="tc-stars">★★★★★</div>
+<div class="tc-mark">"</div>
                 <p class="tc-quote">Trabajo en derecho laboral y los plazos en lo social son implacables. Magdalena entiende eso mejor que nadie. Cuando le encargo un asunto sé que está cubierto desde el primer momento. La comunicación es inmediata y siempre proactiva: me avisa antes de que yo tenga que preguntar. Eso en este trabajo es oro.</p>
                 <div class="tc-sep"></div>
                 <div class="tc-name">Ana Belén Fuentes Vidal</div>
@@ -1297,6 +1345,7 @@ footer{background:var(--nd);padding:0 var(--gut)}
             </div>
 
             <div class="test-card rv d2">
+                <div class="tc-stars">★★★★★</div>
                 <div class="tc-mark">"</div>
                 <p class="tc-quote">Empecé a trabajar con ella al abrir mi despacho de penal. Era joven y no conocía bien el sistema. Ella me explicó cómo funcionan los juzgados sevillanos mejor que nadie. Hoy, diez años después, sigo contando con ella para todos mis asuntos penales en Sevilla. Una profesional de referencia sin ninguna duda.</p>
                 <div class="tc-sep"></div>
@@ -1315,7 +1364,8 @@ footer{background:var(--nd);padding:0 var(--gut)}
 <section id="faq">
     <div class="faq-in">
         <div class="faq-tag rv">Preguntas frecuentes</div>
-        <h2 class="faq-h rv d1">Dudas habituales.</h2>
+        <h2 class="faq-h rv d1">Todo lo que necesita saber.</h2>
+        <p class="faq-sub rv d2">Respuestas directas sobre procuraduría, honorarios y colaboración con despachos de abogados.</p>
 
         <div class="faq-list">
 
@@ -1456,14 +1506,14 @@ footer{background:var(--nd);padding:0 var(--gut)}
             <div class="ct-group rv d3">
                 <div class="ct-gl">Teléfono</div>
                 <div class="ct-gv">
-                    <a href="tel:+34625461289">625 461 289</a><br>
+                    <a href="tel:+34625461289">625 46 12 89</a><br>
                     <a href="tel:+34954334651">954 334 651</a>
                 </div>
             </div>
 
             <div class="ct-group rv d4">
                 <div class="ct-gl">Correo electrónico</div>
-                <div class="ct-gv"><a href="mailto:magdalenaescudero@hotmail.com">magdalenaescudero@hotmail.com</a></div>
+                <div class="ct-gv"><a href="mailto:lalaescuderonocea@gmail.com">lalaescuderonocea@gmail.com</a></div>
             </div>
 
             <div class="ct-group rv d5">
@@ -1520,7 +1570,7 @@ footer{background:var(--nd);padding:0 var(--gut)}
             </div>
             <div class="form-g">
                 <label class="form-l" for="fmsg">Descripción del asunto</label>
-                <textarea class="form-f" id="fmsg" placeholder="Describa brevemente su caso..."></textarea>
+                <textarea class="form-f" id="fmsg" placeholder="Indíquenos brevemente la naturaleza del asunto…"></textarea>
             </div>
             <button class="form-submit" type="submit" id="fsub">Enviar consulta</button>
             <p class="form-legal">Sus datos serán tratados conforme al Reglamento General de Protección de Datos (RGPD). Esta comunicación no establece relación contractual alguna ni sustituye al asesoramiento jurídico.</p>
@@ -1550,7 +1600,7 @@ footer{background:var(--nd);padding:0 var(--gut)}
         </div>
         <div class="fb-right">
             Evangelista 7, Bl.F-1, 2º-2 · 41010 Sevilla<br>
-            625 461 289 · 954 334 651
+            625 46 12 89 · 954 334 651
         </div>
     </div>
 </footer>
@@ -1570,20 +1620,23 @@ footer{background:var(--nd);padding:0 var(--gut)}
 .wa-btn{
     position:fixed;bottom:2rem;right:2rem;z-index:8000;
     display:flex;align-items:center;gap:.65rem;
-    background:#25D366;color:#fff;
+    background:var(--nd);color:var(--gl);
     padding:.75rem 1.25rem .75rem .9rem;
     border-radius:50px;
-    box-shadow:0 4px 20px rgba(37,211,102,.35);
+    border:1px solid rgba(200,168,124,.35);
+    box-shadow:0 4px 24px rgba(0,0,0,.45);
     text-decoration:none;
     font-family:var(--jo);font-size:.62rem;font-weight:400;letter-spacing:.1em;
-    transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s;
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s,background .25s;
     cursor:none;
 }
 .wa-btn:hover{
-    background:#1ebe5d;
+    background:var(--nm);
+    border-color:var(--g);
     transform:translateY(-3px);
-    box-shadow:0 8px 28px rgba(37,211,102,.5);
+    box-shadow:0 8px 32px rgba(0,0,0,.55);
 }
+.wa-btn svg path{fill:#25D366}
 @media(max-width:640px){
     .wa-btn{bottom:1.25rem;right:1.25rem;padding:.8rem;border-radius:50%}
     .wa-label{display:none}
@@ -1656,6 +1709,31 @@ function faqToggle(btn){
     document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
     if(!isOpen) item.classList.add('open');
 }
+
+/* ── COUNT-UP ── */
+(function(){
+    const targets=document.querySelectorAll('[data-count]');
+    if(!targets.length) return;
+    const co=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting && !e.target.dataset.done){
+                e.target.dataset.done=1;
+                const end=+e.target.dataset.count;
+                const suffix=e.target.dataset.suffix||'';
+                const dur=1200,steps=48;
+                let i=0;
+                const tick=()=>{
+                    i++;
+                    const v=Math.round((i/steps)*end);
+                    e.target.textContent=v+suffix;
+                    if(i<steps)requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            }
+        });
+    },{threshold:.6});
+    targets.forEach(t=>co.observe(t));
+})();
 
 /* ── FORM ── */
 function fSub(e){
