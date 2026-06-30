@@ -112,6 +112,34 @@ button{cursor:none}
 @keyframes lGrow{to{width:120px}}
 
 /* =====================================================
+   SCROLL PROGRESS
+====================================================== */
+#spbar{
+    position:fixed;top:var(--nh);left:0;right:0;height:1.5px;z-index:1001;
+    background:rgba(200,168,124,.10);pointer-events:none;
+}
+#spbar::after{
+    content:'';display:block;height:100%;width:var(--p,0%);
+    background:linear-gradient(90deg,var(--gd),var(--g),var(--gp));
+    transition:width .08s linear;
+}
+
+/* =====================================================
+   BACK TO TOP
+====================================================== */
+#btt{
+    position:fixed;bottom:2.25rem;right:2rem;z-index:800;
+    width:40px;height:40px;border:1px solid rgba(200,168,124,.25);
+    background:rgba(19,6,8,.82);backdrop-filter:blur(10px);
+    color:var(--g);font-size:.9rem;display:flex;align-items:center;justify-content:center;
+    cursor:none;opacity:0;transform:translateY(10px);pointer-events:none;
+    transition:opacity .35s var(--ease),transform .35s var(--ease),background .25s,border-color .25s;
+}
+#btt.show{opacity:1;transform:translateY(0);pointer-events:auto}
+#btt:hover{background:rgba(200,168,124,.12);border-color:rgba(200,168,124,.55)}
+#btt svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* =====================================================
    NAV
 ====================================================== */
 #nav{
@@ -404,7 +432,7 @@ button{cursor:none}
     background:linear-gradient(160deg,#3A1420 0%,#130608 100%);
 }
 .sobre-photo img{
-    width:100%;height:100%;object-fit:cover;object-position:65% top;
+    width:100%;height:100%;object-fit:cover;object-position:65% 8%;
     opacity:.82;filter:contrast(1.04) brightness(.92) sepia(.06);
 }
 .sobre-photo-overlay{
@@ -923,6 +951,218 @@ footer{background:var(--nd);padding:0 var(--gut)}
 .d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
 
 /* =====================================================
+   MOBILE NAV — Dropdown fluido
+====================================================== */
+@media(max-width:900px){
+  #mmenu{
+    display:flex !important;
+    inset:auto;
+    top:var(--nh);
+    right:var(--gut);
+    left:auto;
+    bottom:auto;
+    width:210px;
+    background:rgba(10,2,4,.97);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+    border:1px solid rgba(200,168,124,.2);
+    border-top:2px solid var(--g);
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding:.5rem 0;
+    gap:0;
+    z-index:950;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translateY(-8px);
+    transition:opacity .3s var(--ease),visibility .3s,transform .3s var(--ease);
+  }
+  #mmenu.open{
+    opacity:1 !important;
+    visibility:visible !important;
+    pointer-events:auto !important;
+    transform:translateY(0) !important;
+  }
+  #mmenu a{
+    font-family:var(--jo) !important;
+    font-size:.62rem !important;
+    font-style:normal !important;
+    font-weight:300 !important;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--stl) !important;
+    padding:.85rem 1.5rem !important;
+    width:100%;
+    border-bottom:1px solid rgba(200,168,124,.08) !important;
+    opacity:1 !important;
+    transform:none !important;
+    transition:color .25s,background .25s !important;
+    transition-delay:0s !important;
+    display:block;
+  }
+  #mmenu a:last-child{
+    border-bottom:none !important;
+    color:rgba(200,168,124,.85) !important;
+  }
+  #mmenu a:hover{
+    color:var(--g) !important;
+    background:rgba(200,168,124,.05);
+  }
+  .mm-close{display:none !important}
+  #nbtn span{transition:all .3s var(--ease)}
+  #nbtn.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  #nbtn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  #nbtn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+}
+
+/* =====================================================
+   MOBILE COMPACT — 640px
+====================================================== */
+@media(max-width:640px){
+  :root{--gut:1.1rem;--nh:58px}
+
+  .nav-logo{height:48px}
+
+  /* Hero */
+  #hero{height:auto;padding-bottom:2rem}
+  .hero-left{padding:1.5rem var(--gut) 0}
+  .hn1,.hn2{font-size:1.85rem}
+  .hn3{font-size:1.05rem}
+  .hero-pretitle{margin-bottom:.5rem}
+  .hero-pretitle-text{font-size:.5rem;letter-spacing:.2em}
+  .hero-rule{margin-bottom:.5rem}
+  .hero-credentials{font-size:.58rem;letter-spacing:.1em;line-height:1.7;margin-bottom:1rem}
+  .hero-actions{gap:1.25rem}
+  .btn-primary{font-size:.55rem;padding:.68rem 1.4rem}
+  .btn-ghost{font-size:.55rem}
+  .hero-stats{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:.5rem 1rem;margin-top:1rem;padding-top:.85rem;
+  }
+  .hst-n{font-size:1rem}
+  .hst-l{font-size:.42rem;letter-spacing:.11em}
+  .hero-right{display:block;height:36vw;max-height:160px;margin-top:1.5rem}
+  .hero-right .hero-photo-wrap{height:100%}
+  .hero-photo-wrap::before,.hero-photo-wrap::after{display:none}
+  .hero-vert-label,.hero-scroll{display:none}
+
+  /* Audiencia */
+  #audiencia{padding:1.5rem var(--gut)}
+  .aud-pre{margin-bottom:1rem}
+  .aud-pre-tag{font-size:.5rem}
+  .aud-pre-h{font-size:.82rem}
+  .aud-card{padding:1.3rem 1.1rem}
+  .aud-icon{width:24px;height:24px;margin-bottom:.65rem}
+  .aud-tag{font-size:.44rem;margin-bottom:.28rem}
+  .aud-h{font-size:1rem;margin-bottom:.45rem}
+  .aud-d{font-size:.72rem;line-height:1.65;margin-bottom:.85rem}
+  .aud-arrow{font-size:.5rem}
+
+  /* Sobre */
+  .sobre-left{display:block !important;min-height:auto !important}
+  .sobre-photo-wrap{height:48vw;max-height:200px}
+  .sobre-frame{display:none}
+  .sobre-photo-caption{bottom:.8rem;left:1rem;right:1rem}
+  .spc-rule{width:20px;margin-bottom:.28rem}
+  .spc-text{font-size:.43rem}
+  .sobre-stats{
+    flex-direction:row;flex-wrap:wrap;
+    padding:.7rem 1rem;gap:.35rem 1.1rem;
+  }
+  .ss-sep{display:none}
+  .ss-num{font-size:1.2rem}
+  .ss-label{font-size:.39rem;letter-spacing:.09em}
+  .sobre-right{padding:1.3rem var(--gut) 1.5rem}
+  .sobre-h{font-size:1.45rem;margin-bottom:.8rem}
+  .sobre-p{font-size:.77rem;line-height:1.75;margin-bottom:.72rem}
+  .sobre-p:first-of-type{font-size:.79rem;padding-left:.85rem}
+  .sobre-pull{font-size:.84rem;padding:.5rem 0 .5rem .85rem;margin:.8rem 0;line-height:1.62}
+  .cred-strip{margin-top:.8rem;padding:.7rem .85rem;gap:.4rem}
+  .cs-k{font-size:.43rem}
+  .cs-v{font-size:.75rem}
+  .s-tag{font-size:.48rem;margin-bottom:.72rem}
+
+  /* Qué hago */
+  .qh-in{padding:1.5rem var(--gut)}
+  .qh-h{font-size:1.48rem;line-height:1.15}
+  .qh-sub{font-size:.74rem;line-height:1.72}
+  .qh-header{gap:1rem;margin-bottom:1.5rem}
+  .tabs-nav{margin-bottom:1.2rem}
+  .tab-btn{font-size:.52rem;padding:.65rem 0;margin-right:1.1rem}
+  .area-row{padding:1rem 0;gap:.55rem}
+  .ar-num{font-size:1.15rem}
+  .ar-title{font-size:.86rem}
+  .proc-step-tab{padding:1.1rem .9rem}
+  .pst-n{font-size:1.6rem;margin-bottom:.72rem}
+  .pst-t{font-size:.88rem;margin-bottom:.38rem}
+  .pst-d{font-size:.71rem;line-height:1.7}
+
+  /* Despachos */
+  .desp-in{padding:1.5rem var(--gut)}
+  .desp-h{font-size:1.48rem}
+  .desp-intro{font-size:.74rem;line-height:1.72}
+  .desp-header{margin-bottom:1.2rem;gap:1rem}
+  .dp-card{padding:1.1rem .9rem}
+  .dp-icon{width:24px;height:24px;margin-bottom:.6rem}
+  .dp-t{font-size:.86rem;margin-bottom:.32rem}
+  .dp-d{font-size:.71rem;line-height:1.7}
+  .desp-pillars{margin-bottom:1.2rem}
+  .desp-cta{padding:1.1rem 1rem;gap:1.1rem}
+  .dct-text{font-size:.86rem}
+  .btn-wa-desp{font-size:.56rem;padding:.7rem 1.25rem}
+
+  /* Testimonios */
+  #testimonios{padding:1.5rem var(--gut)}
+  .test-h{font-size:1.48rem}
+  .test-sub{font-size:.71rem;margin-top:.3rem}
+  .test-header{gap:.8rem;margin-bottom:1.2rem}
+  .test-card{padding:1.3rem 1rem}
+  .tc-mark{font-size:2rem;margin-bottom:.72rem;line-height:.5}
+  .tc-quote{font-size:.84rem;line-height:1.6;margin-bottom:.95rem}
+  .tc-sep{margin-bottom:.8rem}
+  .tc-name{font-size:.63rem}
+  .tc-role{font-size:.55rem}
+  .tc-years{font-size:.45rem;padding:.16rem .42rem}
+
+  /* FAQ */
+  #faq{padding:1.5rem var(--gut)}
+  .faq-h{font-size:1.22rem;margin-bottom:.5rem}
+  .faq-sub{font-size:.73rem;margin-bottom:1.2rem}
+  .faq-q{font-size:.75rem;padding:.82rem 0;gap:.8rem}
+  .faq-q-icon{width:16px;height:16px}
+  .faq-a-inner{font-size:.72rem;padding-bottom:.88rem;line-height:1.8}
+  .faq-arc-table th{font-size:.46rem}
+  .faq-arc-table td{font-size:.7rem}
+  .faq-arc-note{font-size:.58rem}
+
+  /* Contacto */
+  .ct-left{padding:1.5rem var(--gut)}
+  .ct-bg{display:none}
+  .ct-h{font-size:1.55rem;margin-bottom:1.1rem}
+  .ct-group{margin-bottom:.9rem}
+  .ct-gl{font-size:.46rem}
+  .ct-gv{font-size:.84rem;line-height:1.45}
+  .ct-sep{margin:.95rem 0}
+  .ct-colegio{font-size:.5rem}
+  .ct-right{padding:1.3rem var(--gut) 2rem}
+  .cf-title{font-size:1.18rem}
+  .cf-sub{font-size:.65rem;margin-bottom:.95rem}
+  .form-g{margin-bottom:.88rem}
+  .form-l{font-size:.45rem}
+  .form-f{font-size:.79rem;padding:.48rem 0}
+  textarea.form-f{height:78px}
+  .form-submit{font-size:.53rem;padding:.78rem}
+  .form-legal{font-size:.49rem;margin-top:.75rem}
+
+  /* Footer */
+  .foot-logo{height:40px}
+  .foot-links a{font-size:.5rem}
+  .fb-left,.fb-right{font-size:.5rem}
+}
+
+/* =====================================================
    RESPONSIVE — nav
 ====================================================== */
 @media(max-width:900px){
@@ -931,12 +1171,21 @@ footer{background:var(--nd);padding:0 var(--gut)}
     .hero-left{padding:clamp(3rem,7vw,5rem) var(--gut)}
     .sobre-grid{grid-template-columns:1fr;min-height:auto}
     .sobre-left{min-height:50vw;display:none}
-    .nav-links,.nav-cta-wrap{display:none}
+    .nav-links,.nav-cta{display:none}
     .nav-btn{display:flex}
+    #hero{height:auto}
 }
 </style>
 </head>
 <body class="grain">
+
+<!-- SCROLL PROGRESS -->
+<div id="spbar"></div>
+
+<!-- BACK TO TOP -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
 <!-- CURSOR -->
 <div class="cr" id="cr"></div>
@@ -1538,26 +1787,26 @@ footer{background:var(--nd);padding:0 var(--gut)}
             <div class="form-row">
                 <div class="form-g">
                     <label class="form-l" for="fnm">Nombre</label>
-                    <input class="form-f" type="text" id="fnm" placeholder="Su nombre" required>
+                    <input class="form-f" type="text" id="fnm" name="nombre" placeholder="Su nombre" required>
                 </div>
                 <div class="form-g">
                     <label class="form-l" for="fap">Apellidos</label>
-                    <input class="form-f" type="text" id="fap" placeholder="Sus apellidos" required>
+                    <input class="form-f" type="text" id="fap" name="apellidos" placeholder="Sus apellidos" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-g">
                     <label class="form-l" for="fem">Correo electrónico</label>
-                    <input class="form-f" type="email" id="fem" placeholder="su@correo.com" required>
+                    <input class="form-f" type="email" id="fem" name="email" placeholder="su@correo.com" required>
                 </div>
                 <div class="form-g">
                     <label class="form-l" for="ftel">Teléfono</label>
-                    <input class="form-f" type="tel" id="ftel" placeholder="600 000 000">
+                    <input class="form-f" type="tel" id="ftel" name="telefono" placeholder="600 000 000">
                 </div>
             </div>
             <div class="form-g">
                 <label class="form-l" for="farea">Área del asunto</label>
-                <select class="form-f" id="farea">
+                <select class="form-f" id="farea" name="area">
                     <option value="">Seleccione una jurisdicción</option>
                     <option>Civil</option>
                     <option>Penal</option>
@@ -1570,7 +1819,7 @@ footer{background:var(--nd);padding:0 var(--gut)}
             </div>
             <div class="form-g">
                 <label class="form-l" for="fmsg">Descripción del asunto</label>
-                <textarea class="form-f" id="fmsg" placeholder="Indíquenos brevemente la naturaleza del asunto…"></textarea>
+                <textarea class="form-f" id="fmsg" name="mensaje" placeholder="Indíquenos brevemente la naturaleza del asunto…"></textarea>
             </div>
             <button class="form-submit" type="submit" id="fsub">Enviar consulta</button>
             <p class="form-legal">Sus datos serán tratados conforme al Reglamento General de Protección de Datos (RGPD). Esta comunicación no establece relación contractual alguna ni sustituye al asesoramiento jurídico.</p>
@@ -1673,16 +1922,23 @@ document.querySelectorAll('a,button,.area-row,.proc-step-tab,.aud-card').forEach
     el.addEventListener('mouseleave',()=>{ cr.classList.remove('big'); });
 });
 
-/* ── NAV SCROLL ── */
+/* ── NAV SCROLL + PROGRESS + BTT ── */
+const _spbar=document.getElementById('spbar');
+const _btt=document.getElementById('btt');
 window.addEventListener('scroll',()=>{
-    document.getElementById('nav').classList.toggle('sc',window.scrollY>40);
-});
+    const sy=window.scrollY;
+    document.getElementById('nav').classList.toggle('sc',sy>40);
+    const prog=sy/(document.documentElement.scrollHeight-window.innerHeight)*100;
+    _spbar.style.setProperty('--p',prog+'%');
+    _btt.classList.toggle('show',sy>400);
+},{ passive:true });
 
 /* ── MOBILE MENU ── */
 let mOpen=false;
 function mmToggle(force){
     mOpen=(force===false)?false:!mOpen;
     document.getElementById('mmenu').classList.toggle('open',mOpen);
+    document.getElementById('nbtn').classList.toggle('open',mOpen);
 }
 
 /* ── TABS ── */
@@ -1741,18 +1997,32 @@ function fSub(e){
     const btn=document.getElementById('fsub');
     btn.textContent='Enviando…';
     btn.style.pointerEvents='none';
-    setTimeout(()=>{
-        btn.textContent='Consulta enviada ✓';
-        btn.style.background='var(--gd)';
-        btn.style.color='var(--iv)';
-        e.target.reset();
-        setTimeout(()=>{
-            btn.textContent='Enviar consulta';
-            btn.style.background='';
-            btn.style.color='';
+    const fd=new FormData(e.target);
+    fd.append('access_key','54f03f26-b253-41f3-be00-cca908c94d54');
+    fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        body:fd,
+        headers:{Accept:'application/json'}
+    }).then(r=>{
+        if(r.ok){
+            btn.textContent='Consulta enviada ✓';
+            btn.style.background='var(--gd)';
+            btn.style.color='var(--iv)';
+            e.target.reset();
+            setTimeout(()=>{
+                btn.textContent='Enviar consulta';
+                btn.style.background='';
+                btn.style.color='';
+                btn.style.pointerEvents='';
+            },4000);
+        } else {
+            btn.textContent='Error al enviar. Inténtelo de nuevo.';
             btn.style.pointerEvents='';
-        },4000);
-    },1600);
+        }
+    }).catch(()=>{
+        btn.textContent='Error de conexión. Inténtelo de nuevo.';
+        btn.style.pointerEvents='';
+    });
     return false;
 }
 </script>
